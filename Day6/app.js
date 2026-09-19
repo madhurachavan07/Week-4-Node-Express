@@ -1,10 +1,11 @@
-const API_URL = "http://localhost:5000/tasks";
+const API_URL = "/tasks";
 
 function loadTasks() {
     fetch(API_URL)
         .then(response => response.json())
         .then(tasks => {
             const taskList = document.getElementById("taskList");
+
             taskList.innerHTML = "";
 
             tasks.forEach(task => {
@@ -18,6 +19,9 @@ function loadTasks() {
 
                 taskList.appendChild(li);
             });
+        })
+        .catch(error => {
+            console.log("Error:", error);
         });
 }
 
@@ -38,27 +42,31 @@ function addTask() {
             title: input.value
         })
     })
-    .then(response => response.json())
-    .then(() => {
-        input.value = "";
-        loadTasks();
-    });
+        .then(response => response.json())
+        .then(() => {
+            input.value = "";
+            loadTasks();
+        });
 }
 
 function toggleTask(id) {
     fetch(`${API_URL}/${id}`, {
         method: "PUT"
     })
-    .then(response => response.json())
-    .then(() => loadTasks());
+        .then(response => response.json())
+        .then(() => {
+            loadTasks();
+        });
 }
 
 function deleteTask(id) {
     fetch(`${API_URL}/${id}`, {
         method: "DELETE"
     })
-    .then(response => response.json())
-    .then(() => loadTasks());
+        .then(response => response.json())
+        .then(() => {
+            loadTasks();
+        });
 }
 
 loadTasks();

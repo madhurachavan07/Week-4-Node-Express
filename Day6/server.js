@@ -1,8 +1,14 @@
 const express = require("express");
+const path = require("path");
+const cors = require("cors");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+
+// Serve Day6 frontend
+app.use(express.static(__dirname));
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -78,6 +84,8 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(5000, () => {
-    console.log("Day 6 Task Tracker API running on http://localhost:5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Day 6 Task Tracker running on port ${PORT}`);
 });
